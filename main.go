@@ -7,20 +7,27 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/Masterminds/vcs"
-	"github.com/golang/dep"
-	"github.com/golang/dep/gps"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
+
+	"github.com/Masterminds/vcs"
+	"github.com/golang/dep"
+	"github.com/golang/dep/gps"
 )
 
 var (
 	inputFileFlag  = flag.String("i", "Gopkg.lock", "input lock file")
 	outputFileFlag = flag.String("o", "deps.nix", "output nix file")
 )
+
+func runCmd(cmd, arguments...) {
+	_out, _err := exec.Command(cmd, arguments).CombinedOutput()
+	fmt.Println("Ouput\n", string(_out[:]), _err)
+}
 
 func main() {
 	logger := log.New(os.Stdout, "", 0)
@@ -89,6 +96,8 @@ func perform(logger *log.Logger) error {
 			return fmt.Errorf("error deducing project source: %s", err.Error())
 		}
 		repo := src.Repo()
+
+		runCmd("ls", "-lah", repo.LocalPath())
 
 		// convert vcs type to vcs.Type to avoid
 		// type mismatches caused by vendoring
