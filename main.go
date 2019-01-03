@@ -113,6 +113,8 @@ func perform(logger *log.Logger) error {
 		// to avoid it being downloaded from the remote again
 		localUrl := fmt.Sprintf("file://%s", repo.LocalPath())
 
+		fmt.Println("Local Url", localUrl)
+
 		// use nix-prefetch to get the hash of the checkout
 		hash, err := prefetcher.fetchHash(localUrl, rev)
 		if err != nil {

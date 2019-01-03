@@ -3,9 +3,11 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/Masterminds/vcs"
+	"fmt"
 	"os/exec"
 	"strings"
+
+	"github.com/Masterminds/vcs"
 )
 
 type Prefetcher interface {
@@ -38,6 +40,7 @@ type gitPrefetcher struct{}
 
 func (p *gitPrefetcher) fetchHash(url string, revision string) (string, error) {
 	out, err := cmdStdout("nix-prefetch-git", "--url", url, "--rev", revision, "--quiet")
+	fmt.Println("Command ", "nix-prefetch-git", "--url", url, "--rev", revision, "--quiet")
 	if err != nil {
 		return "", err
 	}
