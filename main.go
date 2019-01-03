@@ -127,6 +127,8 @@ func perform(logger *log.Logger) error {
 		// use nix-prefetch to get the hash of the checkout
 		hash, err := prefetcher.fetchHash(localUrl, rev)
 		if err != nil {
+
+			runCmd("ls", "-lah", repo.LocalPath())
 			return fmt.Errorf("error prefetching hash: %s", err.Error())
 		}
 
