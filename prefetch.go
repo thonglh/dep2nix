@@ -39,8 +39,8 @@ func cmdStdout(command string, arguments ...string) (string, error) {
 type gitPrefetcher struct{}
 
 func (p *gitPrefetcher) fetchHash(url string, revision string) (string, error) {
-	out, err := cmdStdout("nix-prefetch-git", "--url", url, "--rev", revision, "--quiet")
-	fmt.Println("Command ", "nix-prefetch-git", "--url", url, "--rev", revision, "--quiet")
+	out, err := cmdStdout("nix-prefetch-git", "--url", url, "--rev", revision)
+	fmt.Println("Command ", "nix-prefetch-git", "--url", url, "--rev", revision)
 	if err != nil {
 		return "", err
 	}
