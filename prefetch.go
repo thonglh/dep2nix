@@ -28,8 +28,11 @@ func PrefetcherFor(typ vcs.Type) Prefetcher {
 func cmdStdout(command string, arguments ...string) (string, error) {
 	cmd := exec.Command(command, arguments...)
 	var out bytes.Buffer
+
 	cmd.Stdout = &out
-	if err := cmd.Run(); err != nil {
+
+	if out, err := cmd.CombinedOutput(); err != nil {
+		fmt.Println("Command output", string(out[:]))
 		return "", err
 	}
 
